@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Define the Maven installation name
-        MAVEN_HOME = tool name: 'Maven 3.6.3', type: 'maven'
+        MAVEN_HOME = tool name: 'maven3.9.4', type: 'maven'
     }
 
     stages {
