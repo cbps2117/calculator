@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+
+    environment {
+        // Define the Maven installation name
+        MAVEN_HOME = tool name: 'Maven 3.6.3', type: 'maven'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                // Run Maven clean install using the specified Maven version
+                sh "${MAVEN_HOME}/bin/mvn clean install"
+            }
+        }
+    }
+}
