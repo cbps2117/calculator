@@ -17,7 +17,7 @@ pipeline {
             steps{
                 sh "${MAVEN_HOME}/bin/mvn clean verify sonar:sonar \
                     -Dsonar.projectKey=calculator \
-                    -Dsonar.host.url=http://13.238.184.236:9000 \
+                    -Dsonar.host.url=http://3.27.200.121:9000 \
                     -Dsonar.login=sqp_2f80637f4b0b304327a04fa31b91f3b1ee91874c"
             }
         }
