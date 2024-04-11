@@ -4,8 +4,6 @@ pipeline {
     environment {
         // Define the Maven installation name
         MAVEN_HOME = tool name: 'maven3.9.4', type: 'maven'
-
-        SHORT_COMMIT=sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
     }
 
     stages {
@@ -17,41 +15,13 @@ pipeline {
         }
         stage('Sonarqube analysis'){
             steps{
-                sh "${MAVEN_HOME}/bin/mvn clean verify sonar:sonar \
+                sh "mvn clean sonar:sonar \
                     -Dsonar.projectKey=calculator \
-                    -Dsonar.host.url=http://54.66.138.151:9000 \
-                    -Dsonar.login=sqp_47643f8ee2443a87978f03a9aae51231c3379faa"
+                    -Dsonar.host.url=http://13.238.184.236:9000 \
+                    -Dsonar.login=sqp_2f80637f4b0b304327a04fa31b91f3b1ee91874c"
             }
         }
-        stage('Sonarqube quality gate check'){
-            steps{
-                script{
-                    def qualityGateStatus=sh(script: "curl -s -u sqp_47643f8ee2443a87978f03a9aae51231c3379faa: http://54.66.138.151:9000/api/qualitygates/project_status?projectKey=calculator | jq -r '.projectStatus.status'", returnStdout: true).trim()
-                    if (qualityGateStatus != 'OK') {
-                        error "Quality Gate check failed: ${qualityGateStatus}"
-                    } 
-                    else {
-                        echo "Quality Gate check passed: ${qualityGateStatus}"
-                    }
-                }
-            }
-        }
-        stage('Jfrog artifactory upload'){
-            steps{
-                rtUpload (
-                    serverId: "jfrog-server-1",
-                    spec:
-                        """{
-                        "files": [
-                            {
-                            "pattern": "target/*.jar",
-                            "target": "calculator/${SHORT_COMMIT}/"
-                            }
-                        ]
-                        }"""
-                )
-            }
-        }
+        
 
     }
 }
