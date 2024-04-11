@@ -4,6 +4,8 @@ pipeline {
     environment {
         // Define the Maven installation name
         MAVEN_HOME = tool name: 'maven3.9.4', type: 'maven'
+
+        SHORT_COMMIT=sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
     }
 
     stages {
@@ -32,6 +34,22 @@ pipeline {
                         echo "Quality Gate check passed: ${qualityGateStatus}"
                     }
                 }
+            }
+        }
+        stage('Jfrog artifactory upload'){
+            steps{
+                rtUpload (
+                    serverId: "jfrog-server-1",
+                    spec:
+                        """{
+                        "files": [
+                            {
+                            "pattern": "target/*.jar",
+                            "target": "calculator/${SHORT_COMMIT}/"
+                            }
+                        ]
+                        }"""
+                )
             }
         }
 
