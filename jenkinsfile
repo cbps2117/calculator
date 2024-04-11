@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Sonarqube analysis'){
             steps{
-                sh "mvn clean verify sonar:sonar \
+                sh "${MAVEN_HOME}/bin/mvn clean verify sonar:sonar \
                     -Dsonar.projectKey=calculator \
                     -Dsonar.host.url=http://54.66.138.151:9000 \
                     -Dsonar.login=sqp_47643f8ee2443a87978f03a9aae51231c3379faa"
