@@ -21,6 +21,19 @@ pipeline {
                     -Dsonar.login=sqp_2f80637f4b0b304327a04fa31b91f3b1ee91874c"
             }
         }
+        stage('Quality gate check'){
+            steps{
+                script{
+                    def qualityGateStatus=sh(script: "curl -s -u sqp_47643f8ee2443a87978f03a9aae51231c3379faa: http://3.27.200.121:9000/api/qualitygates/project_status?projectKey=calculator | jq -r '.projectStatus.status'", returnStdout: true).trim()
+                    if (qualityGateStatus != 'OK') {
+                        error "Quality Gate check failed: ${qualityGateStatus}"
+                    } 
+                    else {
+                        echo "Quality Gate check passed: ${qualityGateStatus}"
+                    }
+                }
+            }
+        }
         
 
     }
