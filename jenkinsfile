@@ -21,6 +21,17 @@ pipeline {
                     -Dsonar.login=sqp_47643f8ee2443a87978f03a9aae51231c3379faa"
             }
         }
+        stage('Sonarqube quality gate check'){
+            steps{
+                def qualityGateStatus=sh(script: "curl -s -u ${SONARQUBE_AUTH_TOKEN}: ${SONARQUBE_SERVER_URL}/api/qualitygates/project_status?projectKey=${SONAR_PROJECT_KEY} | jq -r '.projectStatus.status'", returnStdout: true).trim()
+                if (qualityGateStatus != 'OK') {
+                    error "Quality Gate check failed: ${qualityGateStatus}"
+                } 
+                else {
+                    echo "Quality Gate check passed: ${qualityGateStatus}"
+                }
+            }
+        }
 
     }
 }
