@@ -4,7 +4,7 @@ pipeline {
     environment {
         // Define the Maven installation name
         MAVEN_HOME = tool name: 'maven3.9.4', type: 'maven'
-        SHORT_COMMIT =  sh 'git rev-parse --short HEAD'
+        SHORT_COMMIT = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
     }
 
     stages {
