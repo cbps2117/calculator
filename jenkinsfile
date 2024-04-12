@@ -34,6 +34,22 @@ pipeline {
                 }
             }
         }
+        stage('Jfrog Artifactory upload'){
+            steps{
+                rtUpload (
+                    serverId: "jfrog-instance-1",
+                    spec:
+                        """{
+                        "files": [
+                            {
+                            "pattern": "*.jar",
+                            "target": calculator/"
+                            },
+                        ]
+                        }"""
+                )
+            }
+        }
         
 
     }
