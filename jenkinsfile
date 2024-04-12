@@ -45,7 +45,7 @@ pipeline {
                         "files": [
                             {
                             "pattern": "target/*.jar",
-                            "target": "calculator/${SHORT_COMMIT}"
+                            "target": "calculator/${SHORT_COMMIT}/"
                             }
                         ]
                     }"""
