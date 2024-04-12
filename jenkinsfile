@@ -24,7 +24,7 @@ pipeline {
         stage('Quality gate check'){
             steps{
                 script{
-                    def qualityGateStatus=sh(script: "curl -s -u sqp_767f7607a567e6a64338af1f2783b4e4e8d9e0fc: http://3.27.200.121:9000/api/qualitygates/project_status?projectKey=calculator | jq -r '.projectStatus.status'", returnStdout: true).trim()
+                    def qualityGateStatus=sh(script: "curl -s -u sqp_767f7607a567e6a64338af1f2783b4e4e8d9e0fc: http://3.106.143.222:9000/api/qualitygates/project_status?projectKey=calculator | jq -r '.projectStatus.status'", returnStdout: true).trim()
                     if (qualityGateStatus != 'OK') {
                         error "Quality Gate check failed: ${qualityGateStatus}"
                     } 
