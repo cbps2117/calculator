@@ -12,6 +12,7 @@ pipeline {
                 // Run Maven clean install using the specified Maven version
                 sh "${MAVEN_HOME}/bin/mvn clean install"
             }
+            archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
         }
         stage('Sonarqube analysis'){
             steps{
@@ -42,7 +43,7 @@ pipeline {
                         """{
                         "files": [
                             {
-                            "pattern": "*.jar",
+                            "pattern": "target/*.jar",
                             "target": calculator/"
                             },
                         ]
