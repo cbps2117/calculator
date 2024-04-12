@@ -44,7 +44,7 @@ pipeline {
                         "files": [
                             {
                             "pattern": "target/*.jar",
-                            "target": calculator/"
+                            "target": "calculator/"
                             }
                         ]
                     }"""
